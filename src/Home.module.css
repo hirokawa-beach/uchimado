@@ -1,10 +1,25 @@
+/* Home styles. Global selectors refer only to shared Kagiroi controls/states. */
 
-.app-shell {
-  min-height:100dvh;
-  position:relative;
-  isolation:isolate;
-  color:var(--text);
-  padding-bottom:126px
+@media (min-width:1001px) {
+:global(.is-home) .widget-grid > .widget {
+  grid-column:var(--widget-x) / span var(--widget-w);
+  grid-row:var(--widget-y) / span var(--widget-h);
+}
+}
+@media (max-width:1000px) {
+:global(.is-home) .widget-grid > .widget {
+  order:var(--widget-order);
+}
+}
+.home-empty {
+  grid-column:1 / -1;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  gap:20px;
+  min-height:340px;
+  font-size:22px;
 }
 .wallpaper {
   position:fixed;
@@ -23,90 +38,8 @@
   background:linear-gradient(120deg,rgba(232,241,227,.8),rgba(241,245,233,.45) 50%,rgba(225,237,224,.52));
   pointer-events:none
 }
-.dark .wallpaper-wash {
+:global(.dark) .wallpaper-wash {
   background:rgba(13,28,23,.67)
-}
-.topbar {
-  height:100px;
-  max-width:1800px;
-  margin:auto;
-  padding:0 46px
-}
-.brand {
-  display:flex;
-  align-items:center;
-  gap:12px;
-  font-size:23px;
-  font-weight:650;
-  letter-spacing:-.6px;
-  min-height:52px;
-  border-radius:12px
-}
-.brand-mark {
-  display:grid;
-  place-items:center;
-  width:40px;
-  height:40px;
-  background:var(--accent);
-  color:var(--surface-solid);
-  border-radius:12px
-}
-.brand-divider {
-  height:20px;
-  width:1px;
-  background:var(--line);
-  margin:0 6px
-}
-.home-label {
-  font-size:13px;
-  font-weight:400;
-  letter-spacing:.05em;
-  color:var(--muted)
-}
-.topbar-right {
-  display:flex;
-  align-items:center;
-  gap:24px
-}
-.demo-label {
-  font-size:12px;
-  letter-spacing:.04em;
-  color:var(--muted)
-}
-.family-avatars {
-  display:flex;
-  padding-left:8px
-}
-.avatar {
-  display:grid;
-  place-items:center;
-  width:36px;
-  height:36px;
-  border:2px solid var(--surface-solid);
-  border-radius:50%;
-  font-size:12px;
-  margin-left:-7px;
-  font-weight:600
-}
-.main-content {
-  max-width:1720px;
-  margin:auto;
-  padding:22px 46px 0
-}
-.welcome {
-  padding:22px 0 38px
-}
-.welcome-sub {
-  font-size:14px;
-  letter-spacing:.08em;
-  color:var(--muted);
-  margin-top:10px
-}
-.welcome-actions {
-  display:flex;
-  align-items:center;
-  gap:12px;
-  padding-bottom:4px
 }
 .widget-grid {
   display:grid;
@@ -120,7 +53,7 @@
   min-width:0;
   overflow:hidden;
   position:relative;
-  animation:arrive 350ms ease-out both
+  animation:var(--animation-arrive) 350ms ease-out both
 }
 .widget-clock, .widget-tasks {
   grid-column:span 4
@@ -162,7 +95,7 @@
 .widget-heading h2 svg {
   color:var(--muted)
 }
-.widget-heading>.icon-button {
+.widget-heading>:global(.icon-button) {
   color:var(--muted)
 }
 .widget-body {
@@ -354,7 +287,7 @@
   border-radius:10px;
   padding:0 5px
 }
-.task-row>.tiny-avatar {
+.task-row>:global(.tiny-avatar) {
   margin-left:auto
 }
 .memo-paper {
@@ -448,59 +381,6 @@
   padding:25px 0;
   color:var(--muted)
 }
-.floating-dock {
-  position:fixed;
-  z-index:15;
-  bottom:24px;
-  left:50%;
-  transform:translateX(-50%);
-  padding:8px 14px;
-  display:flex;
-  align-items:center;
-  gap:7px;
-  backdrop-filter:blur(12px);
-  border-radius:24px;
-  background:var(--surface);
-  box-shadow:0 12px 36px rgba(28,48,38,.16),inset 0 1px 0 var(--edge)
-}
-.dock-item {
-  width:70px;
-  min-height:66px;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:6px;
-  border-radius:15px;
-  position:relative;
-  color:var(--muted)
-}
-.dock-item span {
-  font-size:9px;
-  white-space:nowrap
-}
-.dock-item.active {
-  background:var(--green-bg);
-  color:var(--green-fg)
-}
-.dock-item.active:after {
-  content:"";
-  position:absolute;
-  width:14px;
-  height:3px;
-  background:var(--accent);
-  border-radius:2px;
-  bottom:3px
-}
-.launcher-button {
-  color:var(--text)
-}
-.dock-divider {
-  height:33px;
-  width:1px;
-  background:var(--line);
-  margin:0 4px
-}
 .edit-toolbar {
   padding:15px 20px;
   display:flex;
@@ -572,248 +452,10 @@
   font-size:11px;
   color:var(--muted)
 }
-.launcher-grid {
-  display:grid;
-  grid-template-columns:repeat(4,minmax(0,1fr));
-  gap:10px;
-  padding:25px
-}
-.launcher-app {
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  text-align:center;
-  min-height:160px;
-  border-radius:16px;
-  padding:16px 7px;
-  gap:9px
-}
-.launcher-app strong {
-  font-size:13px;
-  font-weight:550
-}
-.launcher-app small {
-  font-size:9px;
-  color:var(--muted)
-}
-.prototype-tag {
-  font-size:9px;
-  color:var(--muted)
-}
-.toast {
-  position:fixed;
-  z-index:50;
-  left:50%;
-  bottom:130px;
-  transform:translateX(-50%);
-  display:flex;
-  align-items:center;
-  gap:9px;
-  padding:16px 24px;
-  font-size:13px;
-  width:max-content;
-  max-width:calc(100vw - 30px);
-  border-radius:15px;
-  background:var(--surface-solid);
-  animation:fade 180ms ease-out
-}
-.settings-version {
-  font-size:11px;
-  color:var(--muted)
-}
-.settings-grid {
-  display:grid;
-  grid-template-columns:1.15fr 1fr;
-  gap:24px;
-  align-items:start
-}
-.settings-section {
-  padding:30px
-}
-.settings-section h2 {
-  display:flex;
-  align-items:center;
-  gap:10px;
-  font-size:19px;
-  font-weight:550
-}
-.settings-section>p {
-  font-size:13px;
-  color:var(--muted);
-  margin:12px 0 23px
-}
-.settings-column {
-  display:flex;
-  flex-direction:column;
-  gap:24px
-}
-.background-options {
-  display:grid;
-  grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:12px;
-  margin-bottom:22px
-}
-.background-option {
-  padding:4px;
-  border-radius:14px;
-  border:2px solid transparent;
-  overflow:hidden;
-  text-align:left
-}
-.background-option.selected {
-  border-color:var(--accent)
-}
-.background-option img {
-  height:140px;
-  object-fit:cover;
-  width:100%;
-  border-radius:8px
-}
-.background-option span {
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  font-size:12px;
-  padding:10px 6px;
-  min-height:48px
-}
-.upload-button {
-  position:relative;
-  cursor:pointer;
-  overflow:hidden;
-  margin:0 8px 12px 0
-}
-.upload-button input {
-  position:absolute;
-  opacity:0;
-  inset:0;
-  width:100%;
-  height:100%;
-  cursor:pointer;
-  padding:0
-}
-.upload-button:focus-within {
-  outline:3px solid #377dbe;
-  outline-offset:3px
-}
-.slider-label {
-  display:flex;
-  flex-wrap:wrap;
-  justify-content:space-between;
-  gap:8px;
-  font-size:13px;
-  margin:20px 0 12px
-}
-.slider-label input {
-  width:100%;
-  accent-color:var(--accent);
-  padding:0;
-  min-height:48px;
-  border:0;
-  background:none
-}
-.theme-options {
-  display:flex;
-  gap:12px
-}
-.theme-options button {
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:12px;
-  min-height:80px;
-  flex:1;
-  border:1px solid var(--line);
-  border-radius:15px;
-  font-size:13px
-}
-.theme-options button.selected {
-  border:2px solid var(--accent);
-  background:var(--green-bg)
-}
-.settings-section>.toggle-row {
-  padding:18px 0;
-  border-bottom:1px solid var(--line)
-}
-.settings-section>.button:last-child {
-  margin-top:20px
-}
-.settings-note {
-  font-size:11px;
-  color:var(--muted);
-  margin-top:25px;
-  line-height:1.8
-}
-.prototype-content {
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  text-align:center;
-  padding:55px 40px;
-  max-width:1050px;
-  margin:0 auto;
-  gap:20px
-}
-.prototype-label {
-  font-size:12px;
-  color:var(--muted);
-  margin-top:4px
-}
-.prototype-content h2 {
-  font-size:29px;
-  font-weight:500
-}
-.prototype-content>p {
-  font-size:14px;
-  line-height:2;
-  max-width:580px;
-  color:var(--muted)
-}
-.prototype-content>small {
-  font-size:10px;
-  color:var(--muted)
-}
-.photo-preview {
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:12px;
-  width:100%;
-  margin:8px 0 15px
-}
-.photo-preview img {
-  width:100%;
-  height:180px;
-  object-fit:cover;
-  border-radius:15px
-}
-.skip-link {
-  position:fixed;
-  z-index:100;
-  top:10px;
-  left:10px;
-  transform:translateY(-150%);
-  padding:16px;
-  background:var(--surface-solid);
-  border-radius:10px;
-  color:var(--text)
-}
-.skip-link:focus {
-  transform:translateY(0)
-}
-.performance-mode .wallpaper {
+:global(.performance-mode) .wallpaper {
   filter:none
 }
-.performance-mode .floating-dock {
-  backdrop-filter:none
-}
 @media(min-width:1750px){
-.main-content {
-  padding-top:30px
-}
-.welcome {
-  padding-top:30px;
-  padding-bottom:43px
-}
 .widget-clock, .widget-schedule, .widget-weather {
   min-height:354px
 }
@@ -830,16 +472,6 @@
   margin-bottom:9px
 }}
 @media(max-width:1300px){
-.topbar {
-  padding:0 28px;
-  height:88px
-}
-.main-content {
-  padding:12px 28px 0
-}
-.welcome {
-  padding:18px 0 28px
-}
 .widget-grid {
   gap:17px
 }
@@ -893,17 +525,8 @@
 }
 .transit-caption {
   font-size:8px
-}
-.settings-section {
-  padding:24px
-}
-.background-option img {
-  height:110px
 }}
 @media(max-width:1000px){
-.home-label, .brand-divider {
-  display:none
-}
 .widget-clock, .widget-schedule, .widget-weather, .widget-tasks, .widget-memo, .widget-transit {
   grid-column:span 6;
   min-height:300px
@@ -927,84 +550,11 @@
 .widget-tasks, .widget-memo, .widget-transit {
   min-height:264px
 }
-.settings-grid {
-  grid-template-columns:1fr
-}
-.background-option img {
-  height:180px
-}
-.settings-column {
-  display:grid;
-  grid-template-columns:1fr 1fr
-}
 .edit-toolbar {
   align-items:flex-start;
   flex-direction:column
-}
-.welcome-actions .button {
-  font-size:12px;
-  padding:12px
-}
-.welcome-actions .button.subtle {
-  font-size:0;
-  gap:0;
-  width:50px;
-  padding:12px
-}
-.welcome-actions .button.subtle svg {
-  width:21px
 }}
 @media(max-width:700px){
-.app-shell {
-  padding-bottom:110px
-}
-.topbar {
-  padding:0 20px;
-  height:80px
-}
-.brand {
-  font-size:21px;
-  gap:10px
-}
-.brand-mark {
-  width:36px;
-  height:36px;
-  border-radius:11px
-}
-.topbar-right {
-  gap:10px
-}
-.family-avatars {
-  display:none
-}
-.demo-label {
-  font-size:9px
-}
-.main-content {
-  padding:8px 18px 0
-}
-.welcome {
-  display:block;
-  padding:17px 3px 22px
-}
-.welcome-sub {
-  font-size:12px;
-  margin-top:8px
-}
-.welcome-actions {
-  margin-top:23px;
-  justify-content:space-between;
-  flex-direction:row-reverse
-}
-.welcome-actions .button.subtle {
-  font-size:12px;
-  width:auto;
-  gap:8px
-}
-.welcome-actions .button.primary {
-  font-size:13px;
-  padding:12px 18px
-}
 .widget-grid {
   gap:16px
 }
@@ -1123,118 +673,13 @@
   gap:11px;
   padding:25px 0 13px
 }
-.floating-dock {
-  bottom:12px;
-  width:calc(100% - 24px);
-  max-width:460px;
-  padding:7px 6px;
-  gap:1px;
-  border-radius:22px;
-  justify-content:space-evenly
-}
-.dock-item {
-  min-width:48px;
-  width:auto;
-  flex:1;
-  min-height:62px;
-  border-radius:13px;
-  gap:6px
-}
-.dock-item svg {
-  width:21px
-}
-.dock-item span {
-  font-size:8px
-}
-.dock-divider {
-  margin:0 3px;
-  height:27px
-}
-.dock-item:nth-of-type(6) {
-  display:none
-}
-.launcher-grid {
-  grid-template-columns:repeat(3,minmax(0,1fr));
-  padding:17px 12px;
-  gap:3px
-}
-.launcher-app {
-  min-height:145px;
-  padding:13px 2px;
-  gap:8px
-}
-.launcher-app strong {
-  font-size:11px
-}
-.launcher-app small {
-  font-size:8px
-}
-.toast {
-  bottom:105px;
-  font-size:11px;
-  padding:14px 17px
-}
-.settings-version {
-  display:none
-}
-.settings-section {
-  padding:22px
-}
-.settings-section h2 {
-  font-size:18px
-}
-.background-options {
-  gap:6px
-}
-.background-option img {
-  height:100px
-}
-.background-option span {
-  font-size:10px;
-  padding:6px 3px;
-  gap:3px
-}
-.background-option span svg {
-  width:13px
-}
-.settings-column {
-  display:flex;
-  flex-direction:column
-}
-.settings-grid {
-  gap:18px
-}
-.settings-note {
-  font-size:10px;
-  margin-top:20px
-}
-.upload-button {
-  font-size:12px
-}
-.prototype-content {
-  padding:35px 22px;
-  gap:18px
-}
-.prototype-content h2 {
-  font-size:23px
-}
-.prototype-content>p {
-  font-size:12px
-}
-.photo-preview {
-  gap:7px
-}
-.photo-preview img {
-  height:110px;
-  border-radius:9px
-}
 .edit-toolbar {
   padding:16px
 }
 .edit-toolbar>div:last-child {
   gap:6px
 }
-.edit-toolbar .button {
+.edit-toolbar :global(.button) {
   font-size:11px;
   padding:10px;
   gap:5px
@@ -1244,16 +689,6 @@
   line-height:1.8
 }}
 @media(min-width:1301px){
-.app-shell {
-  padding-bottom:105px
-}
-.main-content {
-  padding-top:0
-}
-.welcome {
-  padding-top:12px;
-  padding-bottom:30px
-}
 .widget {
   padding:20px 24px
 }
@@ -1281,23 +716,6 @@
 .home-footnote {
   padding:18px 3px
 }}
-@media(max-width:380px){
-.dock-item:nth-of-type(5) {
-  display:none
-}}
-.topbar {
-  height:88px;
-  max-width:1720px
-}
-.home-actions {
-  display:flex;
-  align-items:center;
-  gap:12px;
-  min-width:0
-}
-.home-content {
-  padding-top:12px
-}
 .clock-display {
   display:flex;
   flex-direction:column;
@@ -1425,112 +843,108 @@
 }
 
 @media(min-width:1600px) and (min-height:900px){
-.is-home.default-layout .home-content {
-  height:calc(100dvh - 230px);
-  padding-top:12px
-}
-.is-home.default-layout .widget-grid {
+:global(.is-home):global(.default-layout) .widget-grid {
   height:100%;
   grid-template-rows:minmax(0,1.15fr) minmax(0,1fr)
 }
-.is-home.default-layout .widget {
+:global(.is-home):global(.default-layout) .widget {
   min-height:0;
   display:flex;
   flex-direction:column;
   padding:24px 28px
 }
-.is-home.default-layout .widget-heading {
+:global(.is-home):global(.default-layout) .widget-heading {
   flex-shrink:0;
   margin-bottom:10px
 }
-.is-home.default-layout .widget-heading h2 {
+:global(.is-home):global(.default-layout) .widget-heading h2 {
   font-size:18px
 }
-.is-home.default-layout .widget-body {
+:global(.is-home):global(.default-layout) .widget-body {
   flex:1;
   min-height:0
 }
-.is-home.default-layout .widget-clock .widget-body {
+:global(.is-home):global(.default-layout) .widget-clock .widget-body {
   display:flex;
   align-items:center
 }
-.is-home.default-layout .clock-display {
+:global(.is-home):global(.default-layout) .clock-display {
   gap:22px;
   min-height:0;
   padding-bottom:25px
 }
-.is-home.default-layout .clock-time {
+:global(.is-home):global(.default-layout) .clock-time {
   font-size:112px
 }
-.is-home.default-layout .clock-date {
+:global(.is-home):global(.default-layout) .clock-date {
   font-size:32px
 }
-.is-home.default-layout .clock-date>span {
+:global(.is-home):global(.default-layout) .clock-date>span {
   font-size:24px
 }
-.is-home.default-layout .schedule-summary {
+:global(.is-home):global(.default-layout) .schedule-summary {
   margin:4px 0 14px
 }
-.is-home.default-layout .schedule-summary>strong {
+:global(.is-home):global(.default-layout) .schedule-summary>strong {
   font-size:28px
 }
-.is-home.default-layout .schedule-summary small {
+:global(.is-home):global(.default-layout) .schedule-summary small {
   font-size:15px
 }
-.is-home.default-layout .schedule-summary>span {
+:global(.is-home):global(.default-layout) .schedule-summary>span {
   font-size:13px
 }
-.is-home.default-layout .schedule-row {
+:global(.is-home):global(.default-layout) .schedule-row {
   min-height:69px
 }
-.is-home.default-layout .schedule-row time {
+:global(.is-home):global(.default-layout) .schedule-row time {
   font-size:17px;
   min-width:51px
 }
-.is-home.default-layout .schedule-row strong {
+:global(.is-home):global(.default-layout) .schedule-row strong {
   font-size:18px
 }
-.is-home.default-layout .schedule-row small {
+:global(.is-home):global(.default-layout) .schedule-row small {
   font-size:13px
 }
-.is-home.default-layout .widget-footer-link {
+:global(.is-home):global(.default-layout) .widget-footer-link {
   font-size:13px;
   margin-top:12px
 }
-.is-home.default-layout .weather-location {
+:global(.is-home):global(.default-layout) .weather-location {
   font-size:15px;
   margin-top:12px
 }
-.is-home.default-layout .weather-current {
+:global(.is-home):global(.default-layout) .weather-current {
   margin-top:14px
 }
-.is-home.default-layout .weather-current strong {
+:global(.is-home):global(.default-layout) .weather-current strong {
   font-size:90px
 }
-.is-home.default-layout .weather-current p {
+:global(.is-home):global(.default-layout) .weather-current p {
   font-size:14px
 }
-.is-home.default-layout .weather-facts {
+:global(.is-home):global(.default-layout) .weather-facts {
   font-size:13px;
   gap:20px;
   padding-top:20px;
   margin-top:24px
 }
-.is-home.default-layout .task-summary {
+:global(.is-home):global(.default-layout) .task-summary {
   font-size:14px;
   margin:10px 0 15px
 }
-.is-home.default-layout .task-row {
+:global(.is-home):global(.default-layout) .task-row {
   min-height:68px;
   font-size:18px
 }
-.is-home.default-layout .memo-paper {
+:global(.is-home):global(.default-layout) .memo-paper {
   padding:14px 3px 10px
 }
-.is-home.default-layout .memo-author {
+:global(.is-home):global(.default-layout) .memo-author {
   font-size:13px
 }
-.is-home.default-layout .memo-paper p {
+:global(.is-home):global(.default-layout) .memo-paper p {
   font-size:22px;
   margin-top:18px;
   max-height:none;
@@ -1584,31 +998,6 @@
 }
 }
 @media(max-width:700px){
-.topbar {
-  height:auto;
-  min-height:76px;
-  padding:14px 18px;
-  flex-wrap:wrap;
-  gap:12px
-}
-.home-actions {
-  gap:8px
-}
-.home-actions .button {
-  font-size:11px;
-  padding:12px 10px;
-  gap:6px
-}
-.topbar-right {
-  gap:1px;
-  margin-left:auto
-}
-.topbar-right .demo-label, .topbar-right .family-avatars {
-  display:none
-}
-.home-content {
-  padding-top:8px
-}
 .clock-display {
   min-height:220px;
   gap:16px
@@ -1671,20 +1060,6 @@
 }
 }
 @media(max-width:380px){
-.topbar {
-  padding-right:12px;
-  padding-left:12px
-}
-.home-actions {
-  gap:5px
-}
-.home-actions .button {
-  padding:12px 8px;
-  font-size:10px
-}
-.home-actions .button svg {
-  width:16px
-}
 .clock-time {
   font-size:85px
 }
@@ -1757,7 +1132,7 @@
   font-weight:650;
   color:var(--text)
 }
-.memo-author>.tiny-avatar {
+.memo-author>:global(.tiny-avatar) {
   width:36px;
   height:36px;
   font-size:15px
@@ -1774,63 +1149,63 @@
   -webkit-box-orient:vertical
 }
 @media(min-width:1600px) and (min-height:900px){
-.is-home.default-layout .clock-display {
+:global(.is-home):global(.default-layout) .clock-display {
   gap:26px;
   padding-bottom:0
 }
-.is-home.default-layout .clock-date {
+:global(.is-home):global(.default-layout) .clock-date {
   font-size:40px
 }
-.is-home.default-layout .clock-date>span {
+:global(.is-home):global(.default-layout) .clock-date>span {
   font-size:28px
 }
-.is-home.default-layout .clock-time {
+:global(.is-home):global(.default-layout) .clock-time {
   font-size:112px
 }
-.is-home.default-layout .widget-heading h2 {
+:global(.is-home):global(.default-layout) .widget-heading h2 {
   font-size:20px
 }
-.is-home.default-layout .schedule-row strong {
+:global(.is-home):global(.default-layout) .schedule-row strong {
   font-size:20px
 }
-.is-home.default-layout .task-row {
+:global(.is-home):global(.default-layout) .task-row {
   font-size:20px
 }
-.is-home.default-layout .widget-memo .widget-body {
+:global(.is-home):global(.default-layout) .widget-memo .widget-body {
   display:flex;
   flex-direction:column
 }
-.is-home.default-layout .memo-paper {
+:global(.is-home):global(.default-layout) .memo-paper {
   padding:0;
   flex:1;
   min-height:0;
   overflow:hidden
 }
-.is-home.default-layout .memo-author {
+:global(.is-home):global(.default-layout) .memo-author {
   font-size:16px;
   min-height:36px
 }
-.is-home.default-layout .memo-author strong {
+:global(.is-home):global(.default-layout) .memo-author strong {
   font-size:26px
 }
-.is-home.default-layout .memo-paper p {
+:global(.is-home):global(.default-layout) .memo-paper p {
   font-size:32px;
   line-height:1.65;
   margin-top:16px;
   -webkit-line-clamp:3
 }
-.is-home.default-layout .widget-memo .widget-footer-link {
+:global(.is-home):global(.default-layout) .widget-memo .widget-footer-link {
   flex-shrink:0
 }
-.is-home.default-layout .widget-transit .widget-body {
+:global(.is-home):global(.default-layout) .widget-transit .widget-body {
   display:flex;
   flex-direction:column
 }
-.is-home.default-layout .transit-line {
+:global(.is-home):global(.default-layout) .transit-line {
   min-height:108px;
   flex-shrink:0
 }
-.is-home.default-layout .transit-caption {
+:global(.is-home):global(.default-layout) .transit-caption {
   margin-top:auto;
   padding-top:10px
 }
@@ -1888,7 +1263,7 @@
   font-size:26px;
   line-height:1.65
 }
-.memo-author>.tiny-avatar {
+.memo-author>:global(.tiny-avatar) {
   width:32px;
   height:32px;
   font-size:13px
@@ -1922,9 +1297,6 @@
 .memo-paper p {
   font-size:24px
 }}
-.main-content {
-  padding-top:24px
-}
 .widget-open {
   position:absolute;
   inset:0;
@@ -1952,63 +1324,11 @@ button.widget-open:hover:not(:disabled) {
 .widget .size-controls button {
   position:relative
 }
-.is-home .widget.surface {
+:global(.is-home) .widget:global(.surface) {
   background:rgb(249 252 249 / var(--widget-alpha,.94))
 }
-.is-home.dark .widget.surface {
+:global(.is-home):global(.dark) .widget:global(.surface) {
   background:rgb(32 48 42 / var(--widget-alpha,.94))
-}
-.opacity-scale {
-  display:flex;
-  justify-content:space-between;
-  font-size:11px;
-  color:var(--muted);
-  margin:-8px 0 18px
-}
-.opacity-preview {
-  min-height:135px;
-  border-radius:14px;
-  background-size:cover;
-  background-position:center;
-  padding:18px;
-  display:flex;
-  align-items:center;
-  justify-content:center
-}
-.opacity-preview>div {
-  display:flex;
-  flex-direction:column;
-  gap:10px;
-  padding:20px 24px;
-  border-radius:14px;
-  min-width:70%;
-  border:1px solid var(--edge);
-  box-shadow:var(--shadow)
-}
-.opacity-preview strong {
-  font-size:16px
-}
-.opacity-preview span {
-  font-size:13px;
-  color:var(--muted)
-}
-@media(min-width:1600px) and (min-height:900px){
-.is-home.default-layout .home-content {
-  height:calc(100dvh - 132px);
-  padding-top:24px
-}
-.app-shell.is-calendar {
-  height:100dvh;
-  min-height:0;
-  padding-bottom:0
-}
-}
-@media(max-width:700px){
-.main-content {
-  padding-top:18px
-}}
-.launcher-app {
-  min-height:132px
 }
 @media(min-width:1001px){
 .widget-schedule.size-standard {
@@ -2017,9 +1337,182 @@ button.widget-open:hover:not(:disabled) {
 .widget-weather.size-standard {
   grid-column:span 4
 }}
-
-@layer helpers {
-.form-spacer {
-  flex:1;
+.widget-forecast.size-standard {
+  grid-column: span 8;
 }
+.widget-forecast.size-wide {
+  grid-column: span 12;
+}
+.widget-forecast.size-tall {
+  grid-column: span 8;
+}
+@media (max-width: 1000px) {
+.widget-forecast:is(.size-standard,.size-wide,.size-tall) {
+  grid-column: 1 / -1;
+}
+}
+:global(.is-home) .widget :is(
+  .task-summary,
+  .weather-facts,
+  .transit-caption,
+  .weather-current p,
+  .weather-location,
+  .weather-highlow span,
+  .transit-line small,
+  .schedule-row time,
+  .schedule-row small,
+  .memo-author,
+  .widget-footer-link
+) {
+  color: var(--home-detail);
+  font-weight: var(--home-detail-weight);
+}
+:global(.is-home) .widget .task-summary {
+  font-size: 16px;
+}
+:global(.is-home) .widget .task-row {
+  font-weight: 500;
+}
+:global(.is-home) .widget :global(.completed) > span:nth-child(2) {
+  color: var(--home-detail);
+}
+:global(.is-home) .widget .weather-location {
+  font-size: 16px;
+}
+:global(.is-home) .widget .weather-current p {
+  font-size: 16px;
+}
+:global(.is-home) .widget .weather-highlow span {
+  font-size: 19px;
+}
+:global(.is-home) .widget .weather-facts {
+  font-size: 16px;
+  flex-wrap: wrap;
+  gap: 12px 20px;
+}
+:global(.is-home) .widget .weather-facts > span {
+  font-size: inherit;
+}
+:global(.is-home) .widget :global(.mock-text) {
+  color: var(--home-detail);
+  font-size: 12px;
+  font-weight: 500;
+}
+:global(.is-home) .widget .transit-line small {
+  font-size: 16px;
+}
+:global(.is-home) .widget .transit-caption {
+  font-size: 14px;
+  line-height: 1.6;
+}
+:global(.is-home) .widget .schedule-row time {
+  font-size: 18px;
+}
+:global(.is-home) .widget .schedule-row small {
+  font-size: 15px;
+}
+:global(.is-home) .widget .widget-footer-link {
+  font-size: 15px;
+}
+@media (min-width: 1600px) and (min-height: 1000px) {
+:global(.is-home):global(.default-layout) .widget-grid {
+  grid-template-rows: minmax(0, 1.05fr) minmax(0, 1fr);
+}
+:global(.is-home):global(.default-layout) .schedule-summary {
+  margin: 4px 0 10px;
+}
+:global(.is-home):global(.default-layout) .schedule-list {
+  gap: 6px;
+}
+:global(.is-home):global(.default-layout) .schedule-row {
+  min-height: 78px;
+}
+:global(.is-home):global(.default-layout) .schedule-row > span:nth-child(2) {
+  gap: 6px;
+}
+}
+@media (min-width: 1600px) and (min-height: 900px) and (max-height: 999px) {
+:global(.is-home):global(.default-layout) .widget {
+  padding: 18px 24px;
+}
+:global(.is-home):global(.default-layout) .widget-heading {
+  margin-bottom: 6px;
+}
+:global(.is-home):global(.default-layout) .schedule-row {
+  min-height: 68px;
+}
+:global(.is-home):global(.default-layout) .weather-location {
+  margin-top: 8px;
+}
+:global(.is-home):global(.default-layout) .weather-current {
+  margin-top: 10px;
+}
+:global(.is-home):global(.default-layout) .weather-current strong {
+  font-size: 76px;
+}
+:global(.is-home):global(.default-layout) .weather-highlow {
+  margin-top: 16px;
+}
+:global(.is-home):global(.default-layout) .weather-facts {
+  margin-top: 16px;
+  padding-top: 14px;
+}
+:global(.is-home):global(.default-layout) .memo-paper p {
+  -webkit-line-clamp: 2;
+}
+:global(.is-home):global(.default-layout) .transit-line {
+  min-height: 98px;
+}
+:global(.is-home):global(.default-layout) .widget .transit-caption {
+  font-size: 13px;
+  line-height: 1.5;
+  padding-top: 6px;
+}
+:global(.is-home):global(.default-layout) .task-summary {
+  margin: 8px 0 10px;
+}
+:global(.is-home):global(.default-layout) .task-row {
+  min-height: 64px;
+}
+}
+
+@media (max-width: 700px) {
+:global(.is-home) .widget .transit-line small {
+  font-size: 13px;
+}
+:global(.is-home) .widget .schedule-row time {
+  font-size: 15px;
+}
+:global(.is-home) .widget .schedule-row small {
+  font-size: 13px;
+}
+}
+.task-list {
+  overflow:auto
+}
+.widget-memo .memo-paper p {
+  display:-webkit-box;
+  -webkit-line-clamp:4;
+  -webkit-box-orient:vertical;
+  overflow:hidden
+}
+.widget-tasks .task-list:empty::after {
+  content:'まだタスクはありません';
+  display:block;
+  padding-top:24px
+}
+.admin-locked {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  padding:16px;
+  margin-bottom:16px;
+  flex-wrap:wrap
+}
+.wallpaper {
+  inset:0
+}
+.wallpaper {
+  inset:calc(var(--background-blur) * -2)
 }

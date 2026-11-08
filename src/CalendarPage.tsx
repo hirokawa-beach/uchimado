@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from 'react'
 import { CalendarDays, Check, ChevronLeft, ChevronRight, MapPin, Plus } from 'lucide-react'
 import { addDays, dateKey, eventsFor, jaDate, memberClass, startWeek, today } from './model'
 import type { CalendarEvent, Member } from './model'
-import './CalendarPage.css'
 import { useCore } from './core'
 import {memberLabel} from './TouchControls'
 

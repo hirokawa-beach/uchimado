@@ -612,36 +612,6 @@
   line-height:1.7;
 }
 }
-.preview-task-list {
-  width:min(600px,100%);
-  text-align:left;
-  margin:10px 0
-}
-.preview-task-list>div {
-  display:flex;
-  align-items:center;
-  gap:12px;
-  padding:15px 0;
-  border-bottom:1px solid var(--line);
-  font-size:13px
-}
-.preview-task-list :global(.member-badge) {
-  margin-left:auto
-}
-.preview-memo {
-  white-space:pre-wrap;
-  font-size:20px;
-  line-height:1.9;
-  margin:10px 0 20px
-}
-@media(max-width:700px){
-.preview-task-list>div {
-  font-size:11px;
-  gap:8px
-}
-.preview-memo {
-  font-size:17px
-}}
 .widget-editor-boundary {
   display:contents
 }

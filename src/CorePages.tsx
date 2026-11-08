@@ -1,5 +1,6 @@
 import {cssNames} from './cssNames'
 import boardPageStyles from './BoardPage.module.css'
+import settingsPageStyles from './SettingsPage.module.css'
 import tasksPageStyles from './TasksPage.module.css'
 import { useEffect, useState } from 'react'
 import { Check, Plus, Trash2, X } from 'lucide-react'
@@ -13,7 +14,7 @@ import TouchText, {keepKeyboardInteraction} from './TouchText'
 import {TouchChoice,ConfirmDialog,memberLabel} from './TouchControls'
 import AccountPanel from './AccountPanel'
 
-const localStyles = {...boardPageStyles, ...tasksPageStyles}
+const localStyles = {...boardPageStyles, ...settingsPageStyles, ...tasksPageStyles}
 
 export const noRepeat:Repeat={frequency:'none',interval:1,until:null}
 const unsavedEditors=new Set<symbol>()
@@ -65,7 +66,7 @@ export function SettingsDraft({render,onPreview}:{render:(settings:Settings,onCh
   const core=useCore(),[version,setVersion]=useState(core.preferenceVersions.settings),[draft,setDraft]=useState(core.settings),[error,setError]=useState(''),[busy,setBusy]=useState(false),[saved,setSaved]=useState(false),[discard,setDiscard]=useState(false)
   const dirty=JSON.stringify(draft)!==JSON.stringify(core.settings);useUnsaved(dirty)
   useEffect(()=>{onPreview(draft);return()=>onPreview(null)},[draft,onPreview])
-  return <><header className="settings-toolbar"><div><h1>設定</h1><p>ホームの見た目・配置は、管理者の解除なしで変更できます。</p></div><div className="settings-save"><span>{dirty?'外観に未保存の変更があります':saved?'外観を保存しました':'外観設定'}</span><button className="button primary" disabled={!dirty||busy} onClick={async()=>{setBusy(true);setError('');try{setVersion(await core.savePreferences('settings',draft,version));setSaved(true)}catch(e){setError(errorText(e))}finally{setBusy(false)}}}>{busy?'保存中…':'外観を保存'}</button>{dirty&&<button className="button subtle" onClick={()=>setDiscard(true)}>変更を戻す</button>}{error&&<p className="form-error" role="alert">{error}</p>}</div></header>{render(draft,s=>{setDraft(s);setSaved(false)})}<AccountPanel/><ConfirmDialog open={discard} confirm="変更を戻す" onCancel={()=>setDiscard(false)} onConfirm={()=>{setDraft(core.settings);setVersion(core.preferenceVersions.settings);setDiscard(false)}}/></>
+  return <><header className={cssNames(localStyles, "settings-toolbar")}><div><h1>設定</h1><p>ホームの見た目・配置は、管理者の解除なしで変更できます。</p></div><div className={cssNames(localStyles, "settings-save")}><span>{dirty?'外観に未保存の変更があります':saved?'外観を保存しました':'外観設定'}</span><button className="button primary" disabled={!dirty||busy} onClick={async()=>{setBusy(true);setError('');try{setVersion(await core.savePreferences('settings',draft,version));setSaved(true)}catch(e){setError(errorText(e))}finally{setBusy(false)}}}>{busy?'保存中…':'外観を保存'}</button>{dirty&&<button className="button subtle" onClick={()=>setDiscard(true)}>変更を戻す</button>}{error&&<p className="form-error" role="alert">{error}</p>}</div></header>{render(draft,s=>{setDraft(s);setSaved(false)})}<AccountPanel/><ConfirmDialog open={discard} confirm="変更を戻す" onCancel={()=>setDiscard(false)} onConfirm={()=>{setDraft(core.settings);setVersion(core.preferenceVersions.settings);setDiscard(false)}}/></>
 }
 
 export function newMemo():Memo{return{id:'',version:0,title:'',text:'',pinned:false,visibility:'family',createdBy:null,updatedAt:''}}

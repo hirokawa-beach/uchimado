@@ -1,4 +1,5 @@
 import {cssNames} from './cssNames'
+import homeStyles from './Home.module.css'
 import widgetEditorStyles from './WidgetEditor.module.css'
 import { useRef, useState } from 'react'
 import type { CSSProperties, PointerEvent } from 'react'
@@ -7,12 +8,11 @@ import type { LucideIcon } from 'lucide-react'
 import { jaDate, today, widgetDefinitions } from './model'
 import type { Widget, WidgetId } from './model'
 import { layoutRows, layoutWidgets, moveWidget, positionedWidgets, reflowWidgets } from './widgetLayout'
-import './WidgetEditor.css'
 import {useUnsaved} from './CorePages'
 import {ConfirmDialog} from './TouchControls'
 import TouchText from './TouchText'
 
-const localStyles = {...widgetEditorStyles}
+const localStyles = {...homeStyles, ...widgetEditorStyles}
 
 export const widgetIcons:Record<WidgetId,LucideIcon>={clock:Clock3,schedule:CalendarDays,weather:CloudSun,forecast:CloudSun,tasks:CheckCheck,memo:StickyNote,transit:TrainFront}
 
