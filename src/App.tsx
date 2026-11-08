@@ -71,7 +71,7 @@ function App() {
     <a className="skip-link" href="#main-content">メインコンテンツへ</a>
     <main id="main-content" className={`main-content ${route==='home'?'home-content':''}`}>
     {route==='home'?(editing?<><WidgetEditor initial={widgets} saving={saving} onCancel={()=>navigate('home',true)} onSave={async value=>{if(saving)return;setSaving(true);setLayoutError('');try{await core.savePreferences('layout',{widgets:positionedWidgets(value)},layoutVersion);navigate('home',true);setToast('ホームの配置を保存しました')}catch(e){setLayoutError(errorText(e))}finally{setSaving(false)}}}/>{saving&&<p role="status">配置を保存中…</p>}{layoutError&&<p role="alert" className="form-error">{layoutError}</p>}</>:<>
-      <h1 className="sr-only">ホーム</h1>
+      <h1 className="visually-hidden">ホーム</h1>
       <section className="widget-grid" aria-label="ホームウィジェット">
         {layoutWidgets(widgets).map(widget=>{
           const info=widgetDefinitions[widget.id],Icon=widgetIcons[widget.id]
@@ -131,7 +131,7 @@ function EventEditor({initial,fresh,onClose,onSave,onDelete}:{initial:CalendarEv
       <TouchText label="メモ（任意）" value={value.note} onChange={v=>change('note',v)} maxLength={2000} multiline/>
       {error&&<p className="form-error" role="alert">{error}</p>}
       <ConfirmDialog open={deleteConfirm} title={`「${value.title}」を削除しますか？`} description="この操作は取り消せません。" confirm="削除する" cancel="戻る" busy={busy} onCancel={()=>setDeleteConfirm(false)} onConfirm={async()=>{setBusy(true);setError('');try{await onDelete(value.id,scope)}catch(e){setError(errorText(e));setDeleteConfirm(false)}finally{setBusy(false)}}}/>
-      <div className="form-actions">{!fresh&&<button type="button" className="button danger-subtle" onClick={()=>setDeleteConfirm(true)}><Trash2 size={18}/>削除</button>}<span className="flex-1"/><button type="button" className="button subtle" onClick={close}>キャンセル</button><button type="submit" className="button primary"><Check size={20}/>{busy?'保存中…':'保存する'}</button></div>
+      <div className="form-actions">{!fresh&&<button type="button" className="button danger-subtle" onClick={()=>setDeleteConfirm(true)}><Trash2 size={18}/>削除</button>}<span className="form-spacer"/><button type="button" className="button subtle" onClick={close}>キャンセル</button><button type="submit" className="button primary"><Check size={20}/>{busy?'保存中…':'保存する'}</button></div>
     </fieldset></form></Modal>
 }
 function TimeSelect({label,value,onChange}:{label:string;value:string;onChange:(v:string)=>void}) {
