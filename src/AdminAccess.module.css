@@ -1,0 +1,49 @@
+/* AdminAccess styles. Global selectors refer only to shared Kagiroi controls/states. */
+
+.admin-access {
+  width:min(520px,calc(100vw - 32px));
+  max-height:calc(100dvh - 32px);
+  overflow:auto;
+  padding:28px;
+  display:grid;
+  gap:20px
+}
+.admin-access :global(.window-heading) {
+  margin:0
+}
+.admin-access  :global(#admin-access-description) {
+  font-size:14px;
+  line-height:1.8;
+  color:var(--muted)
+}
+.admin-access :global(.core-fields) {
+  gap:14px
+}
+.recovery-code {
+  font-family:Consolas,monospace;
+  overflow-wrap:anywhere;
+  padding:20px;
+  border:1px solid var(--line);
+  border-radius:12px;
+  font-size:21px;
+  line-height:1.8;
+  background:var(--surface-inset);
+  user-select:all
+}
+.admin-access input[type=checkbox] {
+  width:48px;
+  height:48px
+}
+@media(max-width:700px){
+.admin-access {
+  padding:20px;
+  width:calc(100vw - 20px);
+  max-height:calc(100dvh - 20px)
+}
+.recovery-code {
+  font-size:17px;
+  padding:14px
+}
+.admin-access :global(.window-heading) {
+  font-size:21px
+}}

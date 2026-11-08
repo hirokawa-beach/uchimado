@@ -1,0 +1,140 @@
+/* TouchControls styles. Global selectors refer only to shared Kagiroi controls/states. */
+
+.touch-choice {
+  display:grid;
+  gap:9px;
+  min-width:0
+}
+.touch-choices {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(100px,1fr));
+  gap:8px
+}
+.touch-choices button, .choice-trigger {
+  min-height:52px;
+  border:1px solid var(--line);
+  border-radius:10px;
+  background:var(--surface-inset);
+  padding:10px 14px;
+  display:flex;
+  gap:8px;
+  align-items:center;
+  justify-content:center;
+  font-size:14px;
+  overflow-wrap:anywhere
+}
+.touch-choices button[aria-pressed=true] {
+  border:2px solid var(--accent);
+  background:var(--green-bg);
+  color:var(--green-fg);
+  padding:9px 13px
+}
+.choice-trigger {
+  width:100%;
+  justify-content:space-between
+}
+.choice-overlay, .confirm-overlay {
+  position:fixed;
+  inset:0;
+  background:rgb(15 30 24 / .4);
+  z-index:60
+}
+.choice-dialog, .confirm-dialog {
+  position:fixed;
+  z-index:61;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  width:min(600px,calc(100vw - 24px));
+  max-height:calc(100dvh - 24px);
+  overflow:auto;
+  background:var(--surface-solid);
+  color:var(--text);
+  border:1px solid var(--edge);
+  border-radius:20px;
+  box-shadow:0 20px 80px #10251c45
+}
+.choice-dialog>.touch-choices {
+  padding:20px;
+  grid-template-columns:repeat(auto-fit,minmax(64px,1fr))
+}
+.choice-dialog :global(.window-heading) {
+  position:sticky;
+  top:0;
+  background:var(--surface-solid);
+  padding:16px 20px
+}
+.confirm-overlay {
+  z-index:80
+}
+.confirm-dialog {
+  z-index:81;
+  padding:26px
+}
+.confirm-dialog h2 {
+  font-size:22px
+}
+.confirm-dialog>p {
+  line-height:1.8;
+  margin:14px 0 22px;
+  color:var(--muted)
+}
+.confirm-dialog :global(.form-actions) {
+  flex-wrap:wrap
+}
+.color-palette {
+  border:0;
+  display:grid;
+  gap:10px
+}
+.color-palette legend {
+  font-size:13px;
+  font-weight:600;
+  margin-bottom:10px
+}
+.color-palette>div {
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px
+}
+.color-palette button {
+  width:52px;
+  min-height:52px;
+  border-radius:50%;
+  color:#fff;
+  display:grid;
+  place-items:center;
+  border:3px solid transparent;
+  box-shadow:inset 0 0 0 1px #ffffff55
+}
+.color-palette button[aria-pressed=true] {
+  outline:2px solid var(--text);
+  outline-offset:3px
+}
+:global(.time-select) .touch-choice>:global(.field-label) {
+  font-weight:400;
+  color:var(--muted)
+}
+:global(.time-select) .choice-trigger {
+  padding:10px
+}
+@media(max-width:700px){
+.touch-choices {
+  grid-template-columns:repeat(2,minmax(0,1fr))
+}
+.confirm-dialog {
+  padding:22px
+}
+.confirm-dialog :global(.form-actions)>:global(.button) {
+  flex:1
+}}
+.touch-choices button {
+  position:relative
+}
+.touch-choices button>svg {
+  position:absolute;
+  right:5px;
+  top:5px;
+  width:14px;
+  height:14px
+}

@@ -1,0 +1,78 @@
+/* AccountPanel styles. Global selectors refer only to shared Kagiroi controls/states. */
+
+.account-panel {
+  padding:28px;
+  margin-top:28px;
+  display:grid;
+  gap:20px
+}
+.member-create {
+  padding-top:22px;
+  border-top:1px solid var(--line)
+}
+@media(max-width:700px){
+.account-panel {
+  padding:22px
+}}
+.admin-status {
+  border-top:1px solid var(--line);
+  padding-top:24px;
+  display:grid;
+  gap:16px
+}
+.admin-status>:global(.button) {
+  justify-self:start
+}
+.profile-management {
+  border-top:1px solid var(--line);
+  padding-top:22px;
+  display:grid;
+  gap:18px
+}
+.profile-row {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px
+}
+.profile-edit {
+  padding:20px;
+  background:var(--surface-inset);
+  border-radius:16px
+}
+.account-panel>p {
+  line-height:1.8
+}
+.account-panel select {
+  width:100%
+}
+.account-panel .profile-row span {
+  overflow-wrap:anywhere;
+  min-width:0
+}
+@media(max-width:700px){
+.profile-edit {
+  padding:14px
+}}
+.account-panel {
+  margin-top:32px;
+  padding:26px;
+  border-radius:18px;
+  box-shadow:none
+}
+.account-panel .admin-status {
+  border:0;
+  padding:0;
+  margin:0
+}
+.account-panel>p, .admin-status>p {
+  line-height:1.8;
+  max-width:75ch
+}
+.profile-row {
+  min-height:64px
+}
+@media(max-width:700px){
+.account-panel {
+  padding:20px
+}}

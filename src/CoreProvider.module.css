@@ -1,0 +1,63 @@
+/* CoreProvider styles. Global selectors refer only to shared Kagiroi controls/states. */
+
+.auth-shell {
+  min-height:100dvh;
+  display:grid;
+  place-items:center;
+  background:linear-gradient(120deg,#e5eee5,#d2dfda);
+  padding:24px
+}
+.auth-panel {
+  width:min(100%,500px);
+  padding:32px;
+  display:grid;
+  gap:20px
+}
+.auth-panel h1 {
+  font-size:34px
+}
+.auth-panel p {
+  line-height:1.8
+}
+.connection-error {
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  z-index:1000;
+  background:#fff0e6;
+  color:#693f25;
+  padding:12px 24px;
+  display:flex;
+  align-items:center;
+  gap:16px;
+  flex-wrap:wrap
+}
+.connection-error button {
+  min-height:48px;
+  text-decoration:underline
+}
+.connection-text {
+  font-size:14px;
+  padding:8px 12px
+}
+.auth-shell :global(.field-label) input {
+  width:100%
+}
+:global(.dark) .auth-shell {
+  background:#223b31
+}
+:global(.dark) .connection-error {
+  background:#443529;
+  color:#ffe4d4
+}
+@media(max-width:700px){
+.auth-panel {
+  padding:24px
+}
+.auth-shell {
+  padding:16px
+}
+.connection-error {
+  padding:8px 12px
+}}

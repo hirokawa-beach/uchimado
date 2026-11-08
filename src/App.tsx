@@ -32,7 +32,7 @@ function MemberBadge({member}:{member:Member}) { return <span className={`member
 const transitStates = { normal: {symbol:'○',label:'平常'}, delayed: {symbol:'△',label:'遅延'}, suspended: {symbol:'×',label:'運休'} } as const
 function TransitStatus({status}:{status:keyof typeof transitStates}) { const state=transitStates[status]; return <span className={`transit-status status-${status}`} role="img" aria-label={`運行状況：${state.label}`}><b aria-hidden="true">{state.symbol}</b></span> }
 function Modal({open,onClose,title,description,children,wide=false}:{open:boolean;onClose:()=>void;title:string;description?:string;children:ReactNode;wide?:boolean}) {
-  return <Dialog.Root open={open} onOpenChange={v=>{if(!v)onClose()}}><Dialog.Portal container={document.querySelector('.app-shell')}><Dialog.Overlay className="modal-overlay"/><Dialog.Content className={`floating-window ${wide?'wide-window':''}`} aria-describedby={description?'dialog-description':undefined} onPointerDownOutside={keepKeyboardInteraction}><div className="window-heading"><div><Dialog.Title>{title}</Dialog.Title>{description&&<Dialog.Description id="dialog-description">{description}</Dialog.Description>}</div><Dialog.Close asChild><IconButton label="閉じる" icon={X}/></Dialog.Close></div>{children}</Dialog.Content></Dialog.Portal></Dialog.Root>
+  return <Dialog.Root open={open} onOpenChange={v=>{if(!v)onClose()}}><Dialog.Portal container={document.querySelector('[data-app-shell]')}><Dialog.Overlay className="modal-overlay"/><Dialog.Content className={`floating-window ${wide?'wide-window':''}`} aria-describedby={description?'dialog-description':undefined} onPointerDownOutside={keepKeyboardInteraction}><div className="window-heading"><div><Dialog.Title>{title}</Dialog.Title>{description&&<Dialog.Description id="dialog-description">{description}</Dialog.Description>}</div><Dialog.Close asChild><IconButton label="閉じる" icon={X}/></Dialog.Close></div>{children}</Dialog.Content></Dialog.Portal></Dialog.Root>
 }
 
 function App() {
@@ -66,7 +66,7 @@ function App() {
   const background=settings.background==='custom'?settings.customBackground:`/backgrounds/${settings.background}.jpg`
   const themeStyle={'--background-image':`url("${background}")`,'--background-blur':`${settings.performance?0:settings.blur}px`,'--widget-alpha':settings.widgetOpacity/100} as CSSProperties
   const defaultLayout=!editing&&layoutRows(widgets)<=2
-  return <div className={`app-shell ${route==='home'?'is-home':''} ${route==='calendar'?'is-calendar':''} ${editing?'is-customizing':''} ${defaultLayout?'default-layout':''} ${settings.theme} ${settings.reduceMotion?'reduce-motion':''} ${settings.performance?'performance-mode':''}`} style={themeStyle}>
+  return <div data-app-shell className={`app-shell ${route==='home'?'is-home':''} ${route==='calendar'?'is-calendar':''} ${editing?'is-customizing':''} ${defaultLayout?'default-layout':''} ${settings.theme} ${settings.reduceMotion?'reduce-motion':''} ${settings.performance?'performance-mode':''}`} style={themeStyle}>
     <div className="wallpaper" aria-hidden="true"/><div className="wallpaper-wash" aria-hidden="true"/>
     <a className="skip-link" href="#main-content">メインコンテンツへ</a>
     <main id="main-content" className={`main-content ${route==='home'?'home-content':''}`}>
