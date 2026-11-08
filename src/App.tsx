@@ -1,3 +1,5 @@
+import {cssNames} from './cssNames'
+import widgetEditorStyles from './WidgetEditor.module.css'
 import { useEffect, useRef, useState } from 'react'
 import type { CSSProperties, ReactNode } from 'react'
 import * as Dialog from '@radix-ui/react-dialog'
@@ -146,6 +148,8 @@ function SettingsPage({settings,onChange,notify,onLayoutEdit}:{settings:Settings
 function PrototypePage({id,navigate,tasks,memo}:{id:AppId;navigate:(id:AppId)=>void;tasks:Task[];memo:string}) {
   const app=apps.find(a=>a.id===id)!,Icon=app.icon
   const messages:Partial<Record<AppId,string>>={tasks:'担当や期限をまとめる画面を予定しています。いまはホームでタスクの完了を切り替えられます。',board:'連絡やお買いものメモを、共有する画面を予定しています。ホームのメモは編集・保存できます。',weather:'時間別予報などを表示する予定です。ホームの現在の天気・5日間予報はサンプルデータです。',transit:'登録した路線の運行状況を確認する画面を予定しています。ホームの交通情報はモックです。',photos:'アルバムやスライドショーを楽しむ画面を予定しています。',family:'本人の明示的な許可を得たメンバーだけが、現在地を共有できる設計を予定しています。現在は位置情報を取得していません。',assistant:'予定の登録やメンバーへの連絡を、声で操作する機能を予定しています。現在はマイクを使用していません。'}
-  return <section className="prototype-page"><div className="page-heading"><div><p className="date-line">アプリ</p><h1>{app.title}</h1></div><button className="button subtle" onClick={()=>navigate('home')}><ArrowLeft size={19}/>ホームへ</button></div><div className="surface prototype-content"><span className={`app-icon large ${app.color}`}><Icon size={42}/></span><span className="prototype-label">専用画面のプロトタイプ</span><h2>これから、もっと便利に。</h2><p>{messages[id]}</p>{id==='tasks'&&<div className="preview-task-list">{tasks.map(t=><div key={t.id}><span>{t.done?<Check size={19}/>:<Clock3 size={19}/>}</span><strong>{t.title}</strong><MemberBadge member={t.member}/></div>)}</div>}{id==='board'&&<blockquote className="preview-memo">{memo}</blockquote>}{id==='photos'&&<div className="photo-preview">{['lake','forest','coast'].map(p=><img src={`/backgrounds/${p}.jpg`} alt="サンプルの風景写真" key={p}/>)}</div>}<button className="button primary" onClick={()=>navigate('home')}><House size={19}/>ホームに戻る</button><small>この画面の専用機能・外部サービス連携は未実装です。</small></div></section>
+  return <section className="prototype-page"><div className="page-heading"><div><p className="date-line">アプリ</p><h1>{app.title}</h1></div><button className="button subtle" onClick={()=>navigate('home')}><ArrowLeft size={19}/>ホームへ</button></div><div className="surface prototype-content"><span className={`app-icon large ${app.color}`}><Icon size={42}/></span><span className="prototype-label">専用画面のプロトタイプ</span><h2>これから、もっと便利に。</h2><p>{messages[id]}</p>{id==='tasks'&&<div className={cssNames(localStyles, "preview-task-list")}>{tasks.map(t=><div key={t.id}><span>{t.done?<Check size={19}/>:<Clock3 size={19}/>}</span><strong>{t.title}</strong><MemberBadge member={t.member}/></div>)}</div>}{id==='board'&&<blockquote className={cssNames(localStyles, "preview-memo")}>{memo}</blockquote>}{id==='photos'&&<div className="photo-preview">{['lake','forest','coast'].map(p=><img src={`/backgrounds/${p}.jpg`} alt="サンプルの風景写真" key={p}/>)}</div>}<button className="button primary" onClick={()=>navigate('home')}><House size={19}/>ホームに戻る</button><small>この画面の専用機能・外部サービス連携は未実装です。</small></div></section>
 }
+const localStyles = {...widgetEditorStyles}
+
 export default App
