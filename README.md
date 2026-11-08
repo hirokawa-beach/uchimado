@@ -32,7 +32,7 @@ Kagiroi（かぎろひ）は、光の透過・柔らかな陰影・奥行きを�
 
 | 領域 | 技術 |
 | --- | --- |
-| フロントエンド | React、TypeScript、Vite、Tailwind CSS、Lucide、Radix UI |
+| フロントエンド | React、TypeScript、Vite、CSS Modules、Lucide、Radix UI |
 | バックエンド | Python、FastAPI、REST API、WebSocket |
 | データベース | SQLite、SQLAlchemy、Alembic |
 | 検証 | TypeScript、Node.js test runner、pytest、GitHub Actions |
@@ -175,3 +175,7 @@ Phase 4: Pi常時稼働最適化、HTTPS・外部アクセス、監視・復旧�
 天気と交通情報は現時点ではサンプルです。写真・現在地・音声は未実装画面を維持し、位置情報・マイクを取得しません。PWAマニフェストと接続失敗時の画面は用意していますが、オフライン編集は行いません。PWAのインストールとService WorkerにはlocalhostまたはHTTPSが必要で、LAN内HTTPでは通常のWebアプリとして利用してください。
 
 背景写真はプロトタイプの同梱素材を継承: [山と湖](https://images.unsplash.com/photo-1470770841072-f978cf4d019e)、[深い森](https://images.unsplash.com/photo-1448375240586-882707db888b)、[海辺](https://images.unsplash.com/photo-1518837695005-2083093ee35b)。実行時に画像サービスへ接続しません。
+
+## スタイリング構成
+
+Kagiroiのトークン・テーマ・リセット・共通UIは `src/styles/`、画面・コンポーネントのスタイルは `src/*.module.css` で管理します。構成と移行の確認結果は [STYLING](docs/STYLING.md) を参照してください。

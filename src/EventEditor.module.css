@@ -1,18 +1,19 @@
 /* EventEditor styles. Global selectors refer only to shared Kagiroi controls/states. */
 
-
 @layer helpers {
-.form-spacer {
-  flex:1;
+  .form-spacer {
+    flex: 1;
+  }
 }
-}
+
 .scope-options {
-  padding:14px;
-  background:var(--surface-inset);
-  border-radius:12px;
-  display:grid;
-  gap:12px
+  padding: 14px;
+  background: var(--surface-inset);
+  border-radius: 12px;
+  display: grid;
+  gap: 12px;
 }
+
 .scope-options p {
-  line-height:1.7
+  line-height: 1.7;
 }

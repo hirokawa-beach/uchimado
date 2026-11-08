@@ -1,29 +1,31 @@
 /* Kagiroi: theme variables and color scheme. */
 
 .dark {
-  color-scheme:dark;
-  --text:#e7eee9;
-  --muted:#b5c6bd;
-  --accent:#b9d9c8;
-  --accent-hover:#d7eadd;
-  --surface:rgba(32,48,42,.92);
-  --surface-solid:#263a31;
-  --surface-inset:rgba(171,199,183,.11);
-  --line:rgba(191,212,199,.2);
-  --edge:rgba(235,255,239,.18);
-  --shadow:0 12px 40px -16px rgba(0,0,0,.48),inset 0 1px 0 rgba(255,255,255,.09);
-  --green-bg:#334c3c;
-  --green-fg:#c4e3c9;
-  --blue-bg:#30485a;
-  --blue-fg:#c7ddec;
-  --rose-bg:#59403f;
-  --rose-fg:#f4cfca;
-  --amber-bg:#554b32;
-  --amber-fg:#f3dfaa
+  color-scheme: dark;
+  --text: #e7eee9;
+  --muted: #b5c6bd;
+  --accent: #b9d9c8;
+  --accent-hover: #d7eadd;
+  --surface: rgba(32,48,42,.92);
+  --surface-solid: #263a31;
+  --surface-inset: rgba(171,199,183,.11);
+  --line: rgba(191,212,199,.2);
+  --edge: rgba(235,255,239,.18);
+  --shadow: 0 12px 40px -16px rgba(0,0,0,.48),inset 0 1px 0 rgba(255,255,255,.09);
+  --green-bg: #334c3c;
+  --green-fg: #c4e3c9;
+  --blue-bg: #30485a;
+  --blue-fg: #c7ddec;
+  --rose-bg: #59403f;
+  --rose-fg: #f4cfca;
+  --amber-bg: #554b32;
+  --amber-fg: #f3dfaa;
 }
+
 .is-home.light {
-  --surface:rgba(249,252,249,.94)
+  --surface: rgba(249,252,249,.94);
 }
+
 .is-home.dark {
-  --surface:rgba(32,48,42,.96)
+  --surface: rgba(32,48,42,.96);
 }
