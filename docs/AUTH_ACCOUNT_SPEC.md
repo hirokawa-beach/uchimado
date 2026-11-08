@@ -66,3 +66,7 @@
 - 物理タッチパネル・Pi実機は未検証。初期運用は家庭内LAN限定で、外部公開用認証は追加していない。
 
 参考: [OWASP Password Storage](https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html)、[OWASP Session Management](https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html)、[OWASP Forgot Password](https://cheatsheetseries.owasp.org/cheatsheets/Forgot_Password_Cheat_Sheet.html)。
+
+## 2026-11-08 UI更新
+
+全体の「作成者として使う名前」は廃止し、新規レコードごとに任意の作成者を指定します。フロントエンドはプロフィール選択IDをlocalStorageから送信しません。APIは指定されたプロフィールの所属・使用状態を検証し、認証や私有データの開示には使用しません。既存の作成者記録は保持します。UIの家族名は「ボード名」に変更しました。

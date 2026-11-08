@@ -4,15 +4,15 @@ export type Member = string
 export const members: Member[] = ['家族', 'はると', 'あや', 'ゆい']
 export const memberClass: Record<Member, string> = { 家族: 'green', はると: 'blue', あや: 'rose', ゆい: 'amber' }
 export type Repeat = {frequency:'none'|'daily'|'weekly'|'monthly'|'yearly';interval:number;until:string|null}
-export type CalendarEvent = { id: string; version?:number; title: string; date: string; endDate: string; start: string; end: string; allDay: boolean; member: Member; memberId?:string|null; location: string; note: string; color?:string;visibility?:'family'|'private';timezone?:string;recurrence?:Repeat;exceptions?:Record<string,CalendarEvent|null>;occurrenceDate?:string;seriesDate?:string;seriesEndDate?:string;createdBy?:string|null;updatedAt?:string;calendarId?:string }
-export type Task = { id: string; version?:number; title: string; member: Member; memberId?:string|null; done: boolean; due?:string|null;priority?:'low'|'normal'|'high';visibility?:'family'|'private';recurrence?:Repeat;createdBy?:string|null;updatedAt?:string }
+export type CalendarEvent = { id: string; version?:number; title: string; date: string; endDate: string; start: string; end: string; allDay: boolean; member: Member; memberId?:string|null; location: string; note: string; color?:string;visibility?:'family'|'private';timezone?:string;recurrence?:Repeat;exceptions?:Record<string,CalendarEvent|null>;occurrenceDate?:string;seriesDate?:string;seriesEndDate?:string;authorId?:string;createdBy?:string|null;updatedAt?:string;calendarId?:string }
+export type Task = { id: string; version?:number; title: string; member: Member; memberId?:string|null; done: boolean; due?:string|null;priority?:'low'|'normal'|'high';visibility?:'family'|'private';recurrence?:Repeat;authorId?:string;createdBy?:string|null;updatedAt?:string }
 export const widgetDefinitions = {
   clock: { title: 'いまの時間', app: 'calendar', columns: 4, wideColumns: 6 },
   schedule: { title: '今日の予定', app: 'calendar', columns: 4, wideColumns: 6 },
   weather: { title: '天気', app: 'weather', columns: 4, wideColumns: 6 },
   forecast: { title: '天気予報', app: 'weather', columns: 8, wideColumns: 12 },
-  tasks: { title: '家族タスク', app: 'tasks', columns: 4, wideColumns: 6 },
-  memo: { title: '家族のメモ', app: 'board', columns: 5, wideColumns: 6 },
+  tasks: { title: 'タスク', app: 'tasks', columns: 4, wideColumns: 6 },
+  memo: { title: 'メモ', app: 'board', columns: 5, wideColumns: 6 },
   transit: { title: '交通情報', app: 'transit', columns: 3, wideColumns: 6 },
 } as const satisfies Record<string, {title:string;app:AppId;columns:number;wideColumns:number}>
 export type WidgetId = keyof typeof widgetDefinitions

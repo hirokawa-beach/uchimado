@@ -1,12 +1,14 @@
 import { useRef, useState } from 'react'
 import type { CSSProperties, PointerEvent } from 'react'
-import { ArrowDown, ArrowLeft, ArrowRight, ArrowUp, CalendarDays, Check, CheckCheck, Clock3, CloudSun, Grip, Plus, Search, StickyNote, Sun, TrainFront, Trash2, X } from 'lucide-react'
+import { ArrowDown, ArrowLeft, ArrowRight, ArrowUp, CalendarDays, Check, CheckCheck, Clock3, CloudSun, Grip, Plus, StickyNote, Sun, TrainFront, Trash2 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import { jaDate, today, widgetDefinitions } from './model'
 import type { Widget, WidgetId } from './model'
 import { layoutRows, layoutWidgets, moveWidget, positionedWidgets, reflowWidgets } from './widgetLayout'
 import './WidgetEditor.css'
 import {useUnsaved} from './CorePages'
+import {ConfirmDialog} from './TouchControls'
+import TouchText from './TouchText'
 
 export const widgetIcons:Record<WidgetId,LucideIcon>={clock:Clock3,schedule:CalendarDays,weather:CloudSun,forecast:CloudSun,tasks:CheckCheck,memo:StickyNote,transit:TrainFront}
 
@@ -77,10 +79,10 @@ export default function WidgetEditor({initial,onSave,onCancel,saving=false}:{ini
 
   return <fieldset disabled={saving} className="widget-editor-boundary"><section className="widget-designer" aria-label="ウィジェットの選択と配置">
     <header className="designer-header"><div><h1>ウィジェットを配置</h1><span>{widgets.length}個を使用中</span></div><div className="designer-actions"><button className="button subtle" onClick={()=>dirty?setDiscard(true):onCancel()}>キャンセル</button><button className="button primary" disabled={!fits||saving} onClick={()=>onSave(positionedWidgets(widgets))}><Check size={20}/>{saving?'保存中…':'配置を保存'}</button></div></header>
-    {discard&&<div className="designer-discard surface" role="alert"><strong>配置の変更を破棄しますか？</strong><button className="button subtle" onClick={()=>setDiscard(false)}>編集を続ける</button><button className="button danger" onClick={onCancel}>破棄して閉じる</button></div>}
+    <ConfirmDialog open={discard} title="配置の変更を破棄しますか？" onConfirm={onCancel} onCancel={()=>setDiscard(false)}/>
     <div className="designer-tabs" role="group" aria-label="編集パネル"><button aria-pressed={pane==='catalog'} onClick={()=>setPane('catalog')}><Plus size={19}/>ウィジェット一覧</button><button aria-pressed={pane==='layout'} onClick={()=>setPane('layout')}><Grip size={19}/>配置</button></div>
     <div className={`designer-workspace show-${pane}`}>
-      <aside className="widget-library surface" aria-label="ウィジェット一覧"><div className="library-heading"><h2>ウィジェット</h2><label className="widget-search"><Search size={18}/><input aria-label="ウィジェットを検索" placeholder="ウィジェットを検索" value={query} onChange={e=>setQuery(e.target.value)}/>{query&&<button aria-label="検索をクリア" onClick={()=>setQuery('')}><X size={17}/></button>}</label></div><div className="widget-catalog">{shown.map(id=>{const def=widgetDefinitions[id],Icon=widgetIcons[id],added=widgets.some(w=>w.id===id);return <button key={id} className={`catalog-widget ${id===selected?'selected':''}`} aria-label={`${def.title}${added?'を選択':'を追加'}`} aria-pressed={added} onClick={()=>add(id)}><WidgetPreview id={id}/><span className="catalog-widget-label"><Icon size={18}/><strong>{def.title}</strong>{added?<Check size={19}/>:<Plus size={19}/>}</span></button>})}{!shown.length&&<p className="library-empty">該当するウィジェットがありません</p>}</div></aside>
+      <aside className="widget-library surface" aria-label="ウィジェット一覧"><div className="library-heading"><h2>ウィジェット</h2><TouchText label="ウィジェットを検索" value={query} onChange={setQuery} maxLength={60}/></div><div className="widget-catalog">{shown.map(id=>{const def=widgetDefinitions[id],Icon=widgetIcons[id],added=widgets.some(w=>w.id===id);return <button key={id} className={`catalog-widget ${id===selected?'selected':''}`} aria-label={`${def.title}${added?'を選択':'を追加'}`} aria-pressed={added} onClick={()=>add(id)}><WidgetPreview id={id}/><span className="catalog-widget-label"><Icon size={18}/><strong>{def.title}</strong>{added?<Check size={19}/>:<Plus size={19}/>}</span></button>})}{!shown.length&&<p className="library-empty">該当するウィジェットがありません</p>}</div></aside>
       <div className="layout-workspace"><div className="layout-heading"><h2>ホームのプレビュー</h2></div><div className="layout-scroll"><div className="layout-canvas" ref={canvas} style={{'--layout-rows':rows} as CSSProperties} aria-label="配置図">
         {Array.from({length:rows*12},(_,i)=>{const x=i%12+1,y=Math.floor(i/12)+1,covered=placed.some(p=>x>=p.x&&x<p.x+p.w&&y>=p.y&&y<p.y+p.h);return <button key={i} className={`layout-cell ${covered?'covered-cell':''} ${y>2?'overflow-cell':''} ${hover?.x===x&&hover?.y===y?'drop-target':''}`} style={{gridColumn:x,gridRow:y}} aria-label={`${y}段目の${x}列目に配置`} aria-hidden={covered||undefined} disabled={!selected||covered} onClick={()=>move(x,y)}/>})}
         {placed.map(widget=>{const def=widgetDefinitions[widget.id],Icon=widgetIcons[widget.id];return <button key={widget.id} data-layout-widget={widget.id} className={`layout-widget ${selected===widget.id?'selected':''} ${dragging===widget.id?'dragging':''} ${widget.y+widget.h>3?'outside-screen':''}`} style={{gridColumn:`${widget.x} / span ${widget.w}`,gridRow:`${widget.y} / span ${widget.h}`}} aria-label={`${def.title}を配置図で選択`} aria-pressed={selected===widget.id} onPointerDown={e=>drag(e,widget.id)} onClick={()=>setSelected(widget.id)}><span className="layout-widget-heading"><Icon size={19}/><strong>{def.title}</strong><Grip size={18}/></span><WidgetPreview id={widget.id}/></button>})}

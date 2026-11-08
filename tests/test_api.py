@@ -375,3 +375,29 @@ def test_legacy_migration_keeps_data_disables_passwords_and_seals_private(tmp_pa
             assert db.get(models.Memo,private_id).data['text']=='秘密を保護'
             assert list(db.scalars(select(models.LoginSession)))==[]
     assert list((tmp_path/'backups').glob('before-auth-v2-*.sqlite3'))
+
+
+def test_per_record_author_does_not_select_identity_or_grant_admin(admin):
+    person = profile(admin)
+    admin.post('/api/admin/lock')
+    for kind, data in [('events', event()), ('tasks', {'title':'やること'}), ('memos', {'text':'共有メモ'})]:
+        result = admin.post(f'/api/records/{kind}', json={'profile_id':person['id'], 'data':data})
+        assert result.status_code == 200, result.text
+        assert result.json()['createdBy'] == person['id']
+    session = admin.get('/api/session').json()['user']
+    assert session['id'] is None and session['role'] == 'family'
+    assert admin.get('/api/admin/backup').status_code == 403
+    assert admin.get('/api/state').json()['user']['id'] is None
+
+
+def test_per_record_author_rejects_missing_inactive_or_other_household(admin, app):
+    person = profile(admin)
+    with app.state.Session() as db:
+        db.get(models.Profile, person['id']).active = False
+        db.add(models.Family(id='other', name='別のボード'))
+        db.add(models.Profile(id='outsider',family_id='other',name='別の人',active=True))
+        db.commit()
+    for author in ['missing', person['id'], 'outsider']:
+        result = admin.post('/api/records/memos',json={'profile_id':author,'data':{'text':'共有'}})
+        assert result.status_code == 422
+    assert admin.get('/api/state').json()['memos'] == []

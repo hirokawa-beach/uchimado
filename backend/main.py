@@ -244,7 +244,13 @@ def create_app(db_path=None):
         model, schema = RESOURCES[kind]
         data = resolve_member(db, validate(schema, value.data), actor)
         owner = owner_for(data, actor)
-        record = model(family_id=actor["familyId"], owner_id=owner, data=data, created_by=actor["id"])
+        author = actor["id"]
+        if value.profile_id:
+            profile = db.scalar(select(models.Profile).where(models.Profile.id == value.profile_id, models.Profile.family_id == actor["familyId"], models.Profile.active.is_(True)))
+            if not profile:
+                raise HTTPException(422, "使用できる作成者を選んでください。")
+            author = profile.id
+        record = model(family_id=actor["familyId"], owner_id=owner, data=data, created_by=author)
         if kind == "events":
             record.calendar_id = calendar_for(db, actor, owner)
         db.add(record)

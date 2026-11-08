@@ -134,6 +134,7 @@ class MemoData(Input):
 
 
 class Mutation(Input):
+    profile_id: str | None = Field(default=None, max_length=80)
     version: int | None = Field(default=None, ge=1)
     data: dict
 
