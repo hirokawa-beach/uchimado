@@ -1,0 +1,121 @@
+/* TasksPage styles. Global selectors refer only to shared Kagiroi controls/states. */
+
+.core-list {
+  display: grid;
+  gap: 12px;
+}
+
+.resource-row {
+  width: 100%;
+  min-height: 90px;
+  padding: 20px 24px;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.resource-row>span:nth-child(2) {
+  flex: 1;
+  min-width: 0;
+}
+
+.resource-row strong {
+  display: block;
+  font-size: 22px;
+  overflow-wrap: anywhere;
+}
+
+.resource-row small {
+  display: block;
+  margin-top: 8px;
+  font-size: 15px;
+}
+
+.resource-row:global(.completed) strong {
+  text-decoration: line-through;
+}
+
+.completion-history {
+  padding: 28px;
+  margin-top: 28px;
+}
+
+.completion-history h2 {
+  font-size: 22px;
+  margin-bottom: 14px;
+}
+
+.completion-history p {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.completion-history p span {
+  font-size: 14px;
+}
+
+:global(.core-page) .resource-row>span:last-child {
+  font-size: 14px;
+}
+
+@media (max-width:700px) {
+  .resource-row {
+    padding: 18px 14px;
+    gap: 12px;
+  }
+  .resource-row strong {
+    font-size: 19px;
+  }
+  .resource-row small {
+    font-size: 14px;
+  }
+  .completion-history {
+    padding: 20px;
+  }
+}
+
+.resource-row.task-resource {
+  display: grid;
+  grid-template-columns: 52px minmax(0,1fr) auto;
+  text-align: left;
+  gap: 14px;
+}
+
+.task-resource :global(.task-toggle) {
+  width: 52px;
+  min-height: 52px;
+  display: grid;
+  place-items: center;
+}
+
+.task-resource .task-details {
+  min-width: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.task-resource .task-details small {
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+.tasks-error {
+  margin-bottom: 16px;
+}
+
+@media (max-width:700px) {
+  .resource-row.task-resource {
+    grid-template-columns: 48px minmax(0,1fr);
+    gap: 9px;
+    padding: 14px;
+  }
+  .task-resource>:global(.button) {
+    grid-column: 2;
+    justify-self: start;
+  }
+}

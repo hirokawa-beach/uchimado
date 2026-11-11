@@ -1,0 +1,173 @@
+/* Navigation styles. Global selectors refer only to shared Kagiroi controls/states. */
+
+@media (min-width:1001px) {
+  :global(.is-customizing) .floating-dock {
+    display: none;
+  }
+}
+
+@media (max-width:1000px) {
+  :global(.is-customizing) .floating-dock {
+    display: none;
+  }
+}
+
+.floating-dock {
+  position: fixed;
+  z-index: 15;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 8px 14px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  backdrop-filter: blur(12px);
+  border-radius: 24px;
+  background: var(--surface);
+  box-shadow: 0 12px 36px rgba(28,48,38,.16),inset 0 1px 0 var(--edge);
+}
+
+.dock-item {
+  width: 70px;
+  min-height: 66px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border-radius: 15px;
+  position: relative;
+  color: var(--muted);
+}
+
+.dock-item span {
+  font-size: 9px;
+  white-space: nowrap;
+}
+
+.dock-item.active {
+  background: var(--green-bg);
+  color: var(--green-fg);
+}
+
+.dock-item.active:after {
+  content: "";
+  position: absolute;
+  width: 14px;
+  height: 3px;
+  background: var(--accent);
+  border-radius: 2px;
+  bottom: 3px;
+}
+
+.launcher-button {
+  color: var(--text);
+}
+
+.dock-divider {
+  height: 33px;
+  width: 1px;
+  background: var(--line);
+  margin: 0 4px;
+}
+
+.launcher-grid {
+  display: grid;
+  grid-template-columns: repeat(4,minmax(0,1fr));
+  gap: 10px;
+  padding: 25px;
+}
+
+.launcher-app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  min-height: 160px;
+  border-radius: 16px;
+  padding: 16px 7px;
+  gap: 9px;
+}
+
+.launcher-app strong {
+  font-size: 13px;
+  font-weight: 550;
+}
+
+.launcher-app small {
+  font-size: 9px;
+  color: var(--muted);
+}
+
+.prototype-tag {
+  font-size: 9px;
+  color: var(--muted);
+}
+
+:global(.performance-mode) .floating-dock {
+  backdrop-filter: none;
+}
+
+@media (max-width:700px) {
+  .floating-dock {
+    bottom: 12px;
+    width: calc(100% - 24px);
+    max-width: 460px;
+    padding: 7px 6px;
+    gap: 1px;
+    border-radius: 22px;
+    justify-content: space-evenly;
+  }
+  .dock-item {
+    min-width: 48px;
+    width: auto;
+    flex: 1;
+    min-height: 62px;
+    border-radius: 13px;
+    gap: 6px;
+  }
+  .dock-item svg {
+    width: 21px;
+  }
+  .dock-item span {
+    font-size: 8px;
+  }
+  .dock-divider {
+    margin: 0 3px;
+    height: 27px;
+  }
+  .dock-item:nth-of-type(6) {
+    display: none;
+  }
+  .launcher-grid {
+    grid-template-columns: repeat(3,minmax(0,1fr));
+    padding: 17px 12px;
+    gap: 3px;
+  }
+  .launcher-app {
+    min-height: 145px;
+    padding: 13px 2px;
+    gap: 8px;
+  }
+  .launcher-app strong {
+    font-size: 11px;
+  }
+  .launcher-app small {
+    font-size: 8px;
+  }
+}
+
+@media (max-width:380px) {
+  .dock-item:nth-of-type(5) {
+    display: none;
+  }
+}
+
+.launcher-app {
+  min-height: 132px;
+}
+
+.floating-dock {
+  backdrop-filter: none;
+}

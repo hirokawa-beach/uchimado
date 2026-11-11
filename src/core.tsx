@@ -1,3 +1,5 @@
+import {cssNames} from './cssNames'
+import coreProviderStyles from './CoreProvider.module.css'
 import { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react'
 import type { ReactNode } from 'react'
 import type { CalendarEvent, Settings, Task, Widget } from './model'
@@ -5,6 +7,8 @@ import { forecastWidgets, initialSettings } from './model'
 import { positionedWidgets } from './widgetLayout'
 import {api,errorText} from './api'
 import AdminAccess from './AdminAccess'
+const localStyles = {...coreProviderStyles}
+
 export {api,errorText,ApiError} from './api'
 
 export type Identity = {id:string|null; name:string; role:'admin'|'family'; familyId:string;adminExpiresAt:number|null}
@@ -70,10 +74,10 @@ export default function CoreProvider({children}:{children:ReactNode}) {
     const result=await api<{version:number}>(`/preferences/${device}/${kind}`,'PUT',{version:expected===undefined?current?.version??null:expected,data});await refresh();return result.version
   }
   async function lockAdmin(){await api('/admin/lock','POST');await refresh()}
-  if(!state||!session)return <div className="auth-shell"><div className="surface auth-panel"><h1>uchimado</h1><p role="status">{error||'暮らしの情報を読み込んでいます…'}</p>{error&&<button className="button primary" onClick={()=>void refresh().catch(e=>setError(errorText(e)))}>再接続</button>}</div></div>
+  if(!state||!session)return <div className={cssNames(localStyles, "auth-shell")}><div className={cssNames(localStyles, "surface auth-panel")}><h1>uchimado</h1><p role="status">{error||'暮らしの情報を読み込んでいます…'}</p>{error&&<button className="button primary" onClick={()=>void refresh().catch(e=>setError(errorText(e)))}>再接続</button>}</div></div>
   const settings=preferences.settings?Object.fromEntries(Object.entries(preferences.settings).filter(([key])=>!['id','version','createdBy','updatedAt'].includes(key))) as Settings:initialSettings
   return <Context.Provider value={{session,state,settings,widgets:preferences.layout?.widgets??positionedWidgets(forecastWidgets),connection,refresh,save,remove,saveOccurrence,savePreferences,reauth:refresh,requestAdmin:(change=false)=>{setAdminChange(change===true);setAdminOpen(true)},lockAdmin,preferenceVersions:{layout:preferences.layout?.version??null,settings:preferences.settings?.version??null}}}>
-    {error&&<div className="connection-error" role="alert">{error}<button onClick={()=>void refresh().catch(e=>setError(errorText(e)))}>再取得</button></div>}{children}
+    {error&&<div className={cssNames(localStyles, "connection-error")} role="alert">{error}<button onClick={()=>void refresh().catch(e=>setError(errorText(e)))}>再取得</button></div>}{children}
     {adminOpen&&<AdminAccess session={session} change={adminChange} onDone={refresh} onClose={()=>setAdminOpen(false)}/>}
   </Context.Provider>
 }

@@ -1,0 +1,227 @@
+/* TouchText styles. Global selectors refer only to shared Kagiroi controls/states. */
+
+.touch-keyboard {
+  padding: 10px 8px;
+  background: var(--surface-inset);
+  border: 1px solid var(--line);
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.keyboard-mode {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 4px;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.keyboard-mode button {
+  min-height: 48px;
+  padding: 5px 12px;
+  color: var(--accent);
+  border-radius: 8px;
+}
+
+.key-row {
+  display: flex;
+  gap: 4px;
+}
+
+.key-row button {
+  min-height: 48px;
+  min-width: 0;
+  flex: 1;
+  border-radius: 7px;
+  background: var(--surface-solid);
+  border: 1px solid var(--line);
+  font-size: 15px;
+  box-shadow: 0 2px 0 var(--line);
+}
+
+.key-row button:active {
+  background: var(--green-bg);
+  transform: translateY(1px);
+}
+
+.key-row .space-key {
+  flex: 4;
+}
+
+.touch-keyboard>small {
+  font-size: 9px;
+  line-height: 1.8;
+  color: var(--muted);
+  padding: 6px 3px 2px;
+}
+
+@media (max-width:700px) {
+  .touch-keyboard {
+    margin: 0 -12px;
+    padding: 7px 4px;
+    gap: 4px;
+  }
+  .key-row {
+    gap: 3px;
+  }
+  .key-row button {
+    min-height: 48px;
+    font-size: 14px;
+    border-radius: 5px;
+  }
+  .touch-keyboard small {
+    font-size: 8px;
+  }
+  .key-row {
+    display: grid;
+    grid-template-columns: repeat(5,minmax(48px,1fr));
+  }
+  .key-row:last-of-type {
+    display: flex;
+  }
+  .key-row:last-of-type button {
+    min-width: 48px;
+  }
+}
+
+.touch-text-field {
+  display: grid;
+  gap: 10px;
+}
+
+.touch-text-field>:global(.button) {
+  justify-self: start;
+}
+
+.touch-text-field input {
+  width: 100%;
+}
+
+.touch-text-field {
+  position: relative;
+  display: grid;
+  gap: 5px;
+}
+
+.keyboard-field-button {
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 48px;
+  padding: 8px 4px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.floating-keyboard {
+  position: fixed;
+  z-index: 55;
+  pointer-events: auto;
+  background: var(--surface-solid);
+  color: var(--text);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  box-shadow: 0 12px 44px #10251c45;
+  overflow: auto;
+  padding: 8px;
+  overscroll-behavior: contain;
+}
+
+.floating-keyboard-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding-left: 7px;
+  min-height: 48px;
+  font-size: 13px;
+}
+
+.floating-keyboard-heading :global(.button) {
+  margin-left: auto;
+  padding: 8px;
+  font-size: 11px;
+}
+
+.floating-keyboard .touch-keyboard {
+  margin: 0;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  gap: 5px;
+}
+
+.floating-keyboard .keyboard-mode {
+  display: flex;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.floating-keyboard .keyboard-mode button {
+  background: var(--surface-inset);
+  min-width: 48px;
+}
+
+.floating-keyboard .keyboard-letters {
+  display: grid;
+  grid-template-columns: repeat(10,minmax(48px,1fr));
+  gap: 5px;
+  min-height: 101px;
+}
+
+.keyboard-letters button {
+  min-height: 48px;
+  background: var(--surface-inset);
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  font-size: 18px;
+}
+
+.floating-keyboard .key-row button {
+  min-width: 48px;
+}
+
+.floating-keyboard .touch-keyboard>small {
+  padding: 2px 4px;
+  font-size: 10px;
+}
+
+.floating-keyboard button:active {
+  background: var(--green-bg);
+}
+
+@media (max-width:700px) {
+  .floating-keyboard .keyboard-letters {
+    grid-template-columns: repeat(5,minmax(48px,1fr));
+    min-height: 207px;
+  }
+  .floating-keyboard-heading {
+    font-size: 12px;
+  }
+  .floating-keyboard-heading :global(.button) {
+    font-size: 10px;
+  }
+  .floating-keyboard .keyboard-mode button {
+    padding: 5px 8px;
+  }
+}
+
+@media (max-width:560px) {
+  .floating-keyboard .keyboard-letters {
+    grid-template-columns: repeat(5,minmax(48px,1fr));
+  }
+}
+
+.floating-keyboard .keyboard-letters {
+  min-height: 0;
+  grid-auto-rows: 48px;
+}
+
+.keyboard-letters button {
+  height: 48px;
+  padding: 0;
+}
