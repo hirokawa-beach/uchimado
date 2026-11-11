@@ -1,0 +1,31 @@
+/* Kagiroi: shared design tokens. */
+
+:root {
+  --text: #283b37;
+  --muted: #576b63;
+  --accent: #376958;
+  --accent-hover: #285642;
+  --surface: rgba(249,252,249,.85);
+  --surface-solid: #f7faf7;
+  --surface-inset: rgba(236,242,236,.7);
+  --line: rgba(93,120,108,.18);
+  --edge: rgba(255,255,255,.76);
+  --shadow: 0 12px 40px -16px rgba(29,54,44,.24),inset 0 1px 0 rgba(255,255,255,.7);
+  --radius: 24px;
+  --radius-small: 13px;
+  --motion: 180ms;
+  --green-bg: #e0eee5;
+  --green-fg: #315e47;
+  --blue-bg: #e1edf6;
+  --blue-fg: #3b5c80;
+  --rose-bg: #f5e4e3;
+  --rose-fg: #91564f;
+  --amber-bg: #f7eedb;
+  --amber-fg: #846323;
+}
+
+:root {
+  --animation-arrive: arrive;
+  --animation-fade: fade;
+  --animation-window-in: window-in;
+}

@@ -1,12 +1,11 @@
+import './styles/reset.css'
+import './styles/tokens.css'
+import './styles/themes.css'
+import './styles/global.css'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App'
-import './styles.css'
-import './home-display.css'
-import './core.css'
-import './admin.css'
 import CoreProvider from './core'
 import {TouchKeyboardProvider} from './TouchText'
-import './touch-ui.css'
 ReactDOM.createRoot(document.getElementById('root')!).render(<React.StrictMode><TouchKeyboardProvider><CoreProvider><App /></CoreProvider></TouchKeyboardProvider></React.StrictMode>)
 if('serviceWorker' in navigator && import.meta.env.PROD)void navigator.serviceWorker.register('/sw.js')
