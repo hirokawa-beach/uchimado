@@ -3,18 +3,18 @@ import type { ReactNode } from 'react'
 import type { CalendarEvent, Settings, Task, Widget } from './model'
 import { forecastWidgets, initialSettings } from './model'
 import { positionedWidgets } from './widgetLayout'
-import {api,errorText,PROFILE_KEY,selectedProfile} from './api'
+import {api,errorText} from './api'
 import AdminAccess from './AdminAccess'
 export {api,errorText,ApiError} from './api'
 
 export type Identity = {id:string|null; name:string; role:'admin'|'family'; familyId:string;adminExpiresAt:number|null}
-export type Memo = {id:string; version:number; title:string; text:string; pinned:boolean; visibility:'family'|'private'; createdBy:string|null; updatedAt:string}
+export type Memo = {id:string; version:number; title:string; text:string; pinned:boolean; visibility:'family'|'private'; authorId?:string;createdBy:string|null; updatedAt:string}
 export type Completion = {id:string;title:string;due:string|null;completedBy:string|null;completedAt:string}
 type Snapshot = {events:CalendarEvent[];tasks:Task[];memos:Memo[];members:{id:string;name:string;active:boolean;version:number}[];familyName:string;completions:Completion[];user:Identity}
 type Preference<T> = T & {id:string;version:number}
 type Preferences = {layout:Preference<{widgets:Widget[]}>|null;settings:Preference<Settings>|null}
 type Session = {setupRequired:boolean;canSetup:boolean;familyName:string;user:Identity}
-type Core = {session:Session;selectProfile:(id:string)=>Promise<void>;requestAdmin:(change?:boolean)=>void;lockAdmin:()=>Promise<void>;state:Snapshot;settings:Settings;widgets:Widget[];connection:string;refresh:()=>Promise<void>;save:(kind:'events'|'tasks'|'memos',value:Record<string,unknown>,fresh?:boolean)=>Promise<void>;remove:(kind:string,id:string,version:number)=>Promise<void>;saveOccurrence:(event:CalendarEvent,cancelled?:boolean)=>Promise<void>;preferenceVersions:{layout:number|null;settings:number|null};savePreferences:(kind:'layout'|'settings',data:unknown,version?:number|null)=>Promise<number>;reauth:()=>Promise<void>}
+type Core = {session:Session;requestAdmin:(change?:boolean)=>void;lockAdmin:()=>Promise<void>;state:Snapshot;settings:Settings;widgets:Widget[];connection:string;refresh:()=>Promise<void>;save:(kind:'events'|'tasks'|'memos',value:Record<string,unknown>,fresh?:boolean)=>Promise<void>;remove:(kind:string,id:string,version:number)=>Promise<void>;saveOccurrence:(event:CalendarEvent,cancelled?:boolean)=>Promise<void>;preferenceVersions:{layout:number|null;settings:number|null};savePreferences:(kind:'layout'|'settings',data:unknown,version?:number|null)=>Promise<number>;reauth:()=>Promise<void>}
 const Context=createContext<Core|null>(null)
 export function useCore(){const core=useContext(Context);if(!core)throw new Error('Missing uchimado session');return core}
 
@@ -29,7 +29,6 @@ export default function CoreProvider({children}:{children:ReactNode}) {
     const tick=++generation.current
     const [snapshot,prefs,info]=await Promise.all([api<Snapshot>('/state'),api<Preferences>(`/preferences/${device}`),api<Session>('/session')])
     if(tick!==generation.current)return
-    if(selectedProfile()&&!snapshot.user.id){try{localStorage.removeItem(PROFILE_KEY)}catch{/* Profile choice is optional. */}}
     setState({...snapshot,user:info.user});setSession(info);setPreferences(prefs);setError('')
   },[device])
   useEffect(()=>{
@@ -56,9 +55,9 @@ export default function CoreProvider({children}:{children:ReactNode}) {
     return()=>window.clearTimeout(timer)
   },[session?.user.adminExpiresAt,refresh])
   async function save(kind:'events'|'tasks'|'memos',value:Record<string,unknown>,fresh=false){
-    const {id,version,createdBy:_a,updatedAt:_b,calendarId:_c,exceptions:_d,occurrenceDate:_e,seriesDate:_f,seriesEndDate:_g,...data}=value
+    const {id,version,authorId,createdBy:_a,updatedAt:_b,calendarId:_c,exceptions:_d,occurrenceDate:_e,seriesDate:_f,seriesEndDate:_g,...data}=value
     if(kind!=='memos')data.memberId=state?.members.find(m=>m.name===data.member)?.id??null
-    await api(`/records/${kind}${fresh?'':`/${id}`}`,fresh?'POST':'PUT',{version:fresh?null:version,data})
+    await api(`/records/${kind}${fresh?'':`/${id}`}`,fresh?'POST':'PUT',{version:fresh?null:version,data,...(fresh?{profile_id:authorId||null}:{})})
     await refresh()
   }
   async function remove(kind:string,id:string,version:number){await api(`/records/${kind}/${id}?version=${version}`,'DELETE');await refresh()}
@@ -70,11 +69,10 @@ export default function CoreProvider({children}:{children:ReactNode}) {
     const current=preferences[kind]
     const result=await api<{version:number}>(`/preferences/${device}/${kind}`,'PUT',{version:expected===undefined?current?.version??null:expected,data});await refresh();return result.version
   }
-  async function selectProfile(id:string){try{if(id)localStorage.setItem(PROFILE_KEY,id);else localStorage.removeItem(PROFILE_KEY)}catch{/* No authentication state is stored here. */}await refresh()}
   async function lockAdmin(){await api('/admin/lock','POST');await refresh()}
   if(!state||!session)return <div className="auth-shell"><div className="surface auth-panel"><h1>uchimado</h1><p role="status">{error||'暮らしの情報を読み込んでいます…'}</p>{error&&<button className="button primary" onClick={()=>void refresh().catch(e=>setError(errorText(e)))}>再接続</button>}</div></div>
   const settings=preferences.settings?Object.fromEntries(Object.entries(preferences.settings).filter(([key])=>!['id','version','createdBy','updatedAt'].includes(key))) as Settings:initialSettings
-  return <Context.Provider value={{session,state,settings,widgets:preferences.layout?.widgets??positionedWidgets(forecastWidgets),connection,refresh,save,remove,saveOccurrence,savePreferences,reauth:refresh,selectProfile,requestAdmin:(change=false)=>{setAdminChange(change===true);setAdminOpen(true)},lockAdmin,preferenceVersions:{layout:preferences.layout?.version??null,settings:preferences.settings?.version??null}}}>
+  return <Context.Provider value={{session,state,settings,widgets:preferences.layout?.widgets??positionedWidgets(forecastWidgets),connection,refresh,save,remove,saveOccurrence,savePreferences,reauth:refresh,requestAdmin:(change=false)=>{setAdminChange(change===true);setAdminOpen(true)},lockAdmin,preferenceVersions:{layout:preferences.layout?.version??null,settings:preferences.settings?.version??null}}}>
     {error&&<div className="connection-error" role="alert">{error}<button onClick={()=>void refresh().catch(e=>setError(errorText(e)))}>再取得</button></div>}{children}
     {adminOpen&&<AdminAccess session={session} change={adminChange} onDone={refresh} onClose={()=>setAdminOpen(false)}/>}
   </Context.Provider>

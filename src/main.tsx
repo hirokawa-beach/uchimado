@@ -6,5 +6,7 @@ import './home-display.css'
 import './core.css'
 import './admin.css'
 import CoreProvider from './core'
-ReactDOM.createRoot(document.getElementById('root')!).render(<React.StrictMode><CoreProvider><App /></CoreProvider></React.StrictMode>)
+import {TouchKeyboardProvider} from './TouchText'
+import './touch-ui.css'
+ReactDOM.createRoot(document.getElementById('root')!).render(<React.StrictMode><TouchKeyboardProvider><CoreProvider><App /></CoreProvider></TouchKeyboardProvider></React.StrictMode>)
 if('serviceWorker' in navigator && import.meta.env.PROD)void navigator.serviceWorker.register('/sw.js')
